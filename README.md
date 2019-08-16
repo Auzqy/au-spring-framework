@@ -2,7 +2,7 @@
 write a spring-framework by myself for further study spring
 
 ## 概述
-源码的阅读学习是基于 v5.1.8.RELEASE 版本
+源码的阅读学习是基于 v5.1.8.RELEASE 版本（[相关细节注释](https://github.com/Auzqy/spring-framework/tree/v5.1.8.RELEASE_au_study_by_release_tag)）
 
 spring 的核心是 ioc 和 aop
 

@@ -5,5 +5,5 @@ package top.auzqy.spring.context;
  * createTime: 2019-08-15 19:52
  * @author au
  */
-public class AuApplicationContext {
+public interface AuApplicationContext {
 }

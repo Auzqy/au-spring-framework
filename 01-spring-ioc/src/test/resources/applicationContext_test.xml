@@ -4,12 +4,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	   http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="myBean01" class="top.au.spring.bean.MyBean01" >
+    <bean id="myBean01" class="top.auzqy.bean.MyBean01" >
         <property name="name01" value="赵敏"/>
         <property name="age01" value="28"/>
     </bean>
 
-    <bean id="myBean02" class="top.au.spring.bean.MyBean02">
+    <bean id="myBean02" class="top.auzqy.bean.MyBean02">
         <property name="name02" value="周芷若"/>
         <property name="age02" value="25"/>
     </bean>
