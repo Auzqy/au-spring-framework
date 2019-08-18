@@ -1,5 +1,6 @@
 package top.auzqy.spring.beans.factory.xml;
 
+import lombok.extern.slf4j.Slf4j;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -16,13 +17,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * createTime: 2019-08-17 16:13
  * @author au
  */
+@Slf4j
 public class AuPluggableSchemaResolver implements EntityResolver {
 
     /**
      * The location of the file that defines schema mappings.
      * Can be present in multiple JAR files.
      */
-    public static final String DEFAULT_SCHEMA_MAPPINGS_LOCATION = "META-INF/spring.schemas";
+    private static final String DEFAULT_SCHEMA_MAPPINGS_LOCATION
+            = "META-INF/spring.schemas";
 
     @Override
     public InputSource resolveEntity(String publicId, String systemId)
@@ -39,7 +42,7 @@ public class AuPluggableSchemaResolver implements EntityResolver {
             }
             if (resourceLocation != null) {
                 InputStream systemResourceAsStream = ClassLoader
-                        .getSystemResourceAsStream(DEFAULT_SCHEMA_MAPPINGS_LOCATION);
+                        .getSystemResourceAsStream(resourceLocation);
                 InputSource source = new InputSource(systemResourceAsStream);
                 source.setPublicId(publicId);
                 source.setSystemId(systemId);

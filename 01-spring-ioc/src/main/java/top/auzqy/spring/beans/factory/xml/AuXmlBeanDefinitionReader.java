@@ -49,7 +49,8 @@ public class AuXmlBeanDefinitionReader {
     private static final String REF_ELEMENT = "ref";
 
     private AuBeanFactory auBeanFactory;
-    private Map<String,AuGenericBeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
+    private Map<String,AuGenericBeanDefinition> beanDefinitionMap
+            = new ConcurrentHashMap<>();
 
     public AuXmlBeanDefinitionReader(AuBeanFactory beanFactory) {
         this.auBeanFactory = beanFactory;
