@@ -19,3 +19,20 @@
     - top.auzqy.spring.context.support.AuClassPathXmlApplicationContext.setConfigLocations
 4. 创建 spring 容器
     - refresh()
+    - 4.1 获取更新后的 bean factory
+        - obtainFreshBeanFactory()
+    - 4.2 初始化所有剩余的非懒加载的单利对象
+        - finishBeanFactoryInitialization()
+
+### 详细内容
+4.1 获取更新后的 bean factory `obtainFreshBeanFactory()`
+- 创建 DefaultListableBeanFactory 对象
+- 通过 XmlBeanDefinitionReader 对象加载 bean Definitions。`loadBeanDefinitions(xmlBeanDefinitionReader);`
+- 解析 xml 配置文件，并且注册 bean definition
+```
+1. 依据给定的 applicationContext.xml 的位置，加载这个配置文件
+2. 使用 org.w3c.dom.Document 加载并解析这个配置文件
+3. 使用 GenericBeanDefinition 对象封装解析后的结果，并封装于 Map<String,AuGenericBeanDefinition> beanDefinitionMap 的结构中。
+```
+
+4.2 初始化所有剩余的非懒加载的单利对象 `finishBeanFactoryInitialization()`

@@ -151,7 +151,7 @@ public class AuClassPathXmlApplicationContext implements AuApplicationContext {
             AuBeanFactory beanFactory = new AuDefaultListableBeanFactory();;
 
             /**
-             * todo 加载 beanFactory （这一步是比较关键的）
+             * 加载 beanFactory （这一步是比较关键的）
               */
             loadBeanDefinitions(beanFactory);
 
