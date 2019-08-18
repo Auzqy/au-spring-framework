@@ -49,8 +49,7 @@ public class AuXmlBeanDefinitionReader {
     private static final String REF_ELEMENT = "ref";
 
     private AuBeanFactory auBeanFactory;
-    private Map<String,AuGenericBeanDefinition> beanDefinitionMap
-            = new ConcurrentHashMap<>();
+
 
     public AuXmlBeanDefinitionReader(AuBeanFactory beanFactory) {
         this.auBeanFactory = beanFactory;
@@ -210,8 +209,8 @@ public class AuXmlBeanDefinitionReader {
         // 设置多个属性
         myGenericBeanDefinition.setPropertyValueList(parseAuPropertyValues(ele));
 
-        // 这册包装后的 GenericBeanDefinition 对象
-        beanDefinitionMap.put(id, myGenericBeanDefinition);
+        // 注册包装后的 GenericBeanDefinition 对象，将其注册到 bean factory
+        this.auBeanFactory.registerBeanDefinition(id, myGenericBeanDefinition);
     }
 
     private List<AuPropertyValue> parseAuPropertyValues(Element ele) {

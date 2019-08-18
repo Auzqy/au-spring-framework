@@ -26,7 +26,7 @@
 
 ### 详细内容
 4.1 获取更新后的 bean factory `obtainFreshBeanFactory()`
-- 创建 DefaultListableBeanFactory 对象
+- 创建 DefaultListableBeanFactory 对象，将加载完 bean definition 的 bean factory 赋值给 beanFactory 
 - 通过 XmlBeanDefinitionReader 对象加载 bean Definitions。`loadBeanDefinitions(xmlBeanDefinitionReader);`
 - 解析 xml 配置文件，并且注册 bean definition
 ```
