@@ -41,7 +41,7 @@ public class AuDefaultListableBeanFactory implements AuBeanFactory {
                 // 1。 实例化 bean 对象
                 Object beanObject = beanClassName.getDeclaredConstructor().newInstance();
 
-                // 2。 给 bean 对象赋值，并实现依赖注入
+                // 2。 todo 给 bean 对象赋值，并实现依赖注入
 
             }
         } catch (InstantiationException
