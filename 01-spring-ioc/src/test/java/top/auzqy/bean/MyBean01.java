@@ -14,7 +14,13 @@ public class MyBean01 {
 
     private String age01;
 
+    private MyBean02 ref01;
+
     public void sayHello(){
         System.out.println("MyBean01 ----> sayHello()");
+    }
+
+    public MyBean02 getRef01() {
+        return ref01;
     }
 }

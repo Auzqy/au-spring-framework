@@ -7,6 +7,7 @@
     <bean id="myBean01" class="top.auzqy.bean.MyBean01" >
         <property name="name01" value="赵敏"/>
         <property name="age01" value="28"/>
+        <property name="ref01" ref="myBean02"/>
     </bean>
 
     <bean id="myBean02" class="top.auzqy.bean.MyBean02">

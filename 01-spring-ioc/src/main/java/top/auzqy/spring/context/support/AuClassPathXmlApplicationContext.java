@@ -1,13 +1,23 @@
 package top.auzqy.spring.context.support;
 
 import com.sun.istack.internal.Nullable;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import top.auzqy.spring.beans.AuBeansException;
+import top.auzqy.spring.beans.factory.AuBeanDefinitionStoreException;
 import top.auzqy.spring.beans.factory.AuBeanFactory;
 import top.auzqy.spring.beans.factory.support.AuDefaultListableBeanFactory;
+import top.auzqy.spring.beans.factory.xml.AuXmlBeanDefinitionReader;
 import top.auzqy.spring.context.AuApplicationContext;
 import top.auzqy.spring.util.AuAssert;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * description:  spring 中依据 Class Path Xml 创建出来的一个容器
@@ -157,5 +167,46 @@ public class AuClassPathXmlApplicationContext implements AuApplicationContext {
                             "for loadBeanDefinitions", ex);
         }
     }
+
+    /**
+     * description:  通过 bean factory 加载 bean definition
+     * createTime: 2019-08-17 12:12
+     * @author au
+     * @param beanFactory
+     * @throws AuBeansException
+     * @throws IOException
+     */
+    private void loadBeanDefinitions(AuBeanFactory beanFactory)
+            throws AuBeansException, IOException {
+        // 为给定的 beanFactory 创建一个 XmlBeanDefinitionReader 对象
+        // Create a new XmlBeanDefinitionReader for the given BeanFactory.
+        AuXmlBeanDefinitionReader auXmlBeanDefinitionReader =
+                new AuXmlBeanDefinitionReader(beanFactory);
+
+        // 加载 bean Definitions
+        loadBeanDefinitions(auXmlBeanDefinitionReader);
+    }
+
+    /**
+     * description:  从给定的 AuXmlBeanDefinitionReader 加载 bean 定义
+     * createTime: 2019-08-17 12:16
+     * @author au
+     * @param reader
+     * @throws AuBeansException
+     * @throws IOException
+     */
+    private void loadBeanDefinitions(AuXmlBeanDefinitionReader reader)
+            throws AuBeansException, IOException {
+        //根据位置获取配置文件
+        String[] configLocations = this.configLocations;
+        if (configLocations != null) {
+            reader.loadBeanDefinitions(configLocations);
+        }
+    }
+
+
+
+
+
 
 }
