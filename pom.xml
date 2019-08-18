@@ -69,4 +69,14 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resource</directory>
+                <includes>
+                    <include>**/*.xsd</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>
