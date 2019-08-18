@@ -124,14 +124,24 @@ public class AuClassPathXmlApplicationContext implements AuApplicationContext {
              */
             AuBeanFactory beanFactory = obtainFreshBeanFactory();
 
-//            /**
-//             *    Instantiate all remaining (non-lazy-init) singletons.
-//             * todo 11. 初始化所有剩余的非懒加载的单利对象
-//             * 			(非常重要)
-//             */
-//            //
-//            finishBeanFactoryInitialization(beanFactory);
+            /**
+             *    11. 初始化所有剩余的非懒加载的单利对象
+             * 			(非常重要)
+             * 		Instantiate all remaining (non-lazy-init) singletons.
+             */
+            finishBeanFactoryInitialization(beanFactory);
         }
+    }
+
+    /**
+     * description:  初始化所有单利的 bean 对象
+     * createTime: 2019-08-18 18:38
+     * @author au
+     * @param beanFactory bean factory
+     */
+    private void finishBeanFactoryInitialization(AuBeanFactory beanFactory) {
+        //初始化所有单例bean对象
+        beanFactory.preInstantiateSingletons();
     }
 
     /**

@@ -22,6 +22,11 @@ public class AuBeansException extends RuntimeException {
         super(msg);
     }
 
+
+    public AuBeansException(Throwable cause) {
+        super(cause);
+    }
+
     /**
      * Create a new BeansException with the specified message
      * and root cause.
