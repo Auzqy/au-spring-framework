@@ -221,9 +221,10 @@ public class AuXmlBeanDefinitionReader {
         for (int i = 0; i < nl.getLength(); i++) {
             Node node = nl.item(i);
             if (PROPERTY_ELEMENT.equals(node.getNodeName())) {
-                String propertyName = ele.getAttribute(NAME_ATTRIBUTE);
-                String propertyValue = ele.getAttribute(VALUE_ELEMENT);
-                String propertyRef = ele.getAttribute(REF_ELEMENT);
+                Element nodeElement = (Element) node;
+                String propertyName = nodeElement.getAttribute(NAME_ATTRIBUTE);
+                String propertyValue = nodeElement.getAttribute(VALUE_ELEMENT);
+                String propertyRef = nodeElement.getAttribute(REF_ELEMENT);
 
                 AuPropertyValue auPropertyValue = new AuPropertyValue();
                 auPropertyValue.setName(propertyName);

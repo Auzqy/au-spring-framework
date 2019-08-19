@@ -45,7 +45,8 @@ public class AuDefaultListableBeanFactory implements AuBeanFactory {
      * description:  初始化所有单利的 bean 对象
      * 1。 初始化 bean 对象
      * 2。 给 bean 对象赋值，并实现依赖注入
-     * <p>
+     *  todo 这里 bean 的循环引用的问题没有解决，再看看 Spring 是如何处理的
+     *
      * createTime: 2019-08-18 18:42
      *
      * @author au
@@ -177,10 +178,7 @@ public class AuDefaultListableBeanFactory implements AuBeanFactory {
     public <T> T getBean(String beanName, Class<T> classType) {
         Object beanObject = this.beanObjectsMap.get(beanName);
 
-        log.info("beanObject = {}", beanObject);
-
         if (beanObject.getClass().isAssignableFrom(classType)) {
-            log.info("beanObject.getClass() = {}", beanObject.getClass());
             return (T)beanObject;
         } else {
             throw new AuBeansException("bean class type cast exception.");
