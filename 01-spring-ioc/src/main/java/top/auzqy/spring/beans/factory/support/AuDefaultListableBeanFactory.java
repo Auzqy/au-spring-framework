@@ -1,21 +1,37 @@
 package top.auzqy.spring.beans.factory.support;
 
 import top.auzqy.spring.beans.AuBeansException;
+import top.auzqy.spring.beans.AuPropertyValue;
 import top.auzqy.spring.beans.factory.AuBeanFactory;
+import top.auzqy.spring.util.StringUtils;
+import top.auzqy.spring.util.TypeCastUtils;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * description:  默认的可列举的 bean factory
  * createTime: 2019-08-16 13:11
+ *
  * @author au
  */
 public class AuDefaultListableBeanFactory implements AuBeanFactory {
 
-    private Map<String,AuGenericBeanDefinition> beanDefinitionMap
+    private Map<String, AuGenericBeanDefinition> beanDefinitionMap
+            = new ConcurrentHashMap<>(256);
+
+    /**
+     * description:  存放已经创建好的 bean 对象的 map
+     * createTime: 2019-08-19 14:03
+     * @author au
+     */
+    private Map<String, Object> beanObjectsMap
             = new ConcurrentHashMap<>(256);
 
     @Override
@@ -25,10 +41,11 @@ public class AuDefaultListableBeanFactory implements AuBeanFactory {
 
     /**
      * description:  初始化所有单利的 bean 对象
-     *          1。 初始化 bean 对象
-     *          2。 给 bean 对象赋值，并实现依赖注入
-     *
+     * 1。 初始化 bean 对象
+     * 2。 给 bean 对象赋值，并实现依赖注入
+     * <p>
      * createTime: 2019-08-18 18:42
+     *
      * @author au
      */
     @Override
@@ -37,17 +54,76 @@ public class AuDefaultListableBeanFactory implements AuBeanFactory {
 
             for (Map.Entry<String, AuGenericBeanDefinition> stringAuGenericBeanDefinitionEntry
                     : this.beanDefinitionMap.entrySet()) {
-                Class beanClassName = stringAuGenericBeanDefinitionEntry.getValue().getBeanClass();
+                Class beanClassName = stringAuGenericBeanDefinitionEntry.getValue()
+                        .getBeanClass();
                 // 1。 实例化 bean 对象
                 Object beanObject = beanClassName.getDeclaredConstructor().newInstance();
 
-                // 2。 todo 给 bean 对象赋值，并实现依赖注入
+                // 2。 给 bean 对象赋值，并实现依赖注入 todo 看一下 spring 是怎么搞的
+                // 2.1 获取对象的属性值
+                for (AuPropertyValue beanPropertyValue
+                        : stringAuGenericBeanDefinitionEntry.getValue()
+                        .getPropertyValueList()) {
+
+                    String propertyName = beanPropertyValue.getName();
+                    String propertyValue = beanPropertyValue.getValue();
+                    String propertyRef = beanPropertyValue.getRef();
+
+                    /*
+                        由于在 applicationContext.xml 中定义的 <bean></bean> 标签
+                        中，一个属性的 value 和 ref 有且只能有一个，故此处做此处理
+                     */
+                    if (StringUtils.isEmpty(propertyValue)
+                            && StringUtils.isEmpty(propertyRef)) {
+                        throw new AuBeansException("property 标签中的 value 和 ref 不能同时为空！");
+                    } else if (!StringUtils.isEmpty(propertyValue)
+                            && !StringUtils.isEmpty(propertyRef)) {
+                        throw new AuBeansException("property 标签中的 value 和 ref 不能同时有值！");
+                    }
+
+                    Field[] fields = beanClassName.getDeclaredFields();
+                    // 找到属性的写数据的方法
+                    for (Field f : fields) {
+                        if (propertyName.equals(f.getName())) {
+                            PropertyDescriptor pd = new PropertyDescriptor(
+                                    f.getName(), beanClassName);
+                            // 获得写方法
+                            Method writeMethod = pd.getWriteMethod();
+                            if (!StringUtils.isEmpty(propertyValue)) {
+                                /*
+                                    todo 这里看一下 spring 是怎么做的
+                                    因为知道是int类型的属性，所以传个int过去就是了。。
+                                    实际情况中需要判断下他的参数类型
+                                 */
+                                writeMethod.invoke(beanObject,
+                                        TypeCastUtils.convertParamType(
+                                                propertyValue,f.getType()));
+                                // 如果已经匹配上，那么就不需要再循环该属性了，直接去找下一个属性
+                                break;
+                            } else if (!StringUtils.isEmpty(propertyRef)) {
+                                // todo 查找一下 依赖的对象是否已经存在与 bean 工厂
+                                Object propertyRefObject = this.beanObjectsMap.get(propertyRef);
+
+                                /*
+                                    todo 这里看一下 spring 是怎么做的
+                                    因为知道是int类型的属性，所以传个int过去就是了。。
+                                    实际情况中需要判断下他的参数类型
+                                 */
+                                writeMethod.invoke(beanObject, propertyRef);
+                                // 如果已经匹配上，那么就不需要再循环该属性了，直接去找下一个属性
+                                break;
+                            }
+
+                        }
+                    }
+                }
 
             }
         } catch (InstantiationException
                 | NoSuchMethodException
                 | InvocationTargetException
-                | IllegalAccessException e) {
+                | IllegalAccessException
+                | IntrospectionException e) {
             throw new AuBeansException(e);
         }
 
