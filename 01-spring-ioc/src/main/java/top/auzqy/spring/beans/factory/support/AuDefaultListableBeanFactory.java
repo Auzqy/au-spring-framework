@@ -1,5 +1,6 @@
 package top.auzqy.spring.beans.factory.support;
 
+import lombok.extern.slf4j.Slf4j;
 import top.auzqy.spring.beans.AuBeansException;
 import top.auzqy.spring.beans.AuPropertyValue;
 import top.auzqy.spring.beans.factory.AuBeanFactory;
@@ -21,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author au
  */
+@Slf4j
 public class AuDefaultListableBeanFactory implements AuBeanFactory {
 
     private Map<String, AuGenericBeanDefinition> beanDefinitionMap
@@ -159,6 +161,29 @@ public class AuDefaultListableBeanFactory implements AuBeanFactory {
                 | IllegalAccessException
                 | IntrospectionException e) {
             throw new AuBeansException(e);
+        }
+    }
+
+    /**
+     * description:  依据 bean name 和 对应的类型，获取 bean 对象
+     * createTime: 2019-08-19 22:55
+     *
+     * @param beanName  拟获取的 bean's name
+     * @param classType 拟获取的 bean 类型
+     * @return
+     * @author au
+     */
+    @Override
+    public <T> T getBean(String beanName, Class<T> classType) {
+        Object beanObject = this.beanObjectsMap.get(beanName);
+
+        log.info("beanObject = {}", beanObject);
+
+        if (beanObject.getClass().isAssignableFrom(classType)) {
+            log.info("beanObject.getClass() = {}", beanObject.getClass());
+            return (T)beanObject;
+        } else {
+            throw new AuBeansException("bean class type cast exception.");
         }
     }
 }

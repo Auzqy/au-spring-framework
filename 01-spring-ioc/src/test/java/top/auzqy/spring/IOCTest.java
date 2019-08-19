@@ -1,6 +1,7 @@
 package top.auzqy.spring;
 
 import org.junit.jupiter.api.Test;
+import top.auzqy.bean.MyBean01;
 import top.auzqy.spring.context.AuApplicationContext;
 import top.auzqy.spring.context.support.AuClassPathXmlApplicationContext;
 
@@ -19,5 +20,7 @@ public class IOCTest {
                 new AuClassPathXmlApplicationContext(
                         "applicationContext_test.xml");
 
+        MyBean01 myBean01 = applicationContext
+                .getBean("myBean01", MyBean01.class);
     }
 }

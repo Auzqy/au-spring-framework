@@ -27,6 +27,17 @@ public interface AuBeanFactory {
      *
      * createTime: 2019-08-18 18:38
      * @author au
+     * @param beanNameRef
      */
     void preInstantiateSingletons(String beanNameRef);
+
+    /**
+     * description:  依据 bean name 和 对应的类型，获取 bean 对象
+     * createTime: 2019-08-19 22:55
+     * @author au
+     * @param beanName  拟获取的 bean's name
+     * @param classType 拟获取的 bean 类型
+     * @return
+     */
+    <T> T getBean(String beanName, Class<T> classType);
 }
