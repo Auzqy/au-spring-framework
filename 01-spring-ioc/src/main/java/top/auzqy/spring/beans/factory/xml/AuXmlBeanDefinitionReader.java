@@ -221,6 +221,16 @@ public class AuXmlBeanDefinitionReader {
         for (int i = 0; i < nl.getLength(); i++) {
             Node node = nl.item(i);
             if (PROPERTY_ELEMENT.equals(node.getNodeName())) {
+                /**
+                 *  description:  这里如果不做强转，直接使用 node 的化，
+                 *          也可以如下操作
+                 *              node.getAttributes()
+                 *                  .getNamedItem(NAME_ATTRIBUTE)
+                 *                  .getNodeValue()
+                 *
+                 * createTime: 2019-08-19 23:46
+                 * @author au
+                 */
                 Element nodeElement = (Element) node;
                 String propertyName = nodeElement.getAttribute(NAME_ATTRIBUTE);
                 String propertyValue = nodeElement.getAttribute(VALUE_ELEMENT);
