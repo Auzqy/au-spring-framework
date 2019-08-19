@@ -114,6 +114,16 @@ public class AuDefaultListableBeanFactory implements AuBeanFactory {
                 }
 
                 Field[] fields = beanClassName.getDeclaredFields();
+                /**
+                 * description:
+                 *      这里除了通过 PropertyDescriptor 来获取 set 方法，
+                 *      注意 这个方法的底层其实也是用字符串拼接的方式获取
+                 *      的 set 方法，但是人家（jdk）写的别叫好，对 boolean 类型
+                 *      的 is 也做了对应的处理。
+                 *
+                 * createTime: 2019-08-19 23:39
+                 * @author au
+                 */
                 // 找到属性的写数据的方法
                 for (Field f : fields) {
                     if (propertyName.equals(f.getName())) {
