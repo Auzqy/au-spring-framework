@@ -21,7 +21,7 @@
     - refresh()
     - 4.1 获取更新后的 bean factory
         - obtainFreshBeanFactory()
-    - 4.2 初始化所有剩余的非懒加载的单利对象
+    - 4.2 初始化以及实例化所有剩余的非懒加载的单利对象
         - finishBeanFactoryInitialization()
 
 ### 详细内容
@@ -35,4 +35,10 @@
 3. 使用 GenericBeanDefinition 对象封装解析后的结果，并封装于 Map<String,AuGenericBeanDefinition> beanDefinitionMap 的结构中。
 ```
 
-4.2 初始化所有剩余的非懒加载的单利对象 `finishBeanFactoryInitialization()`
+4.2 初始化所有剩余的非懒加载的单利对象 `finishBeanFactoryInitialization(BeanFactory beanFactory)`
+```
+1. 实例化 bean 对象
+2. 给 bean 对象赋值，并实现依赖注入 (todo 这里有个循环依赖的问题待解决)
+```
+
+4.3 给容器提供一个类似于 `getBean(String, Class<T>)` 的方法。
