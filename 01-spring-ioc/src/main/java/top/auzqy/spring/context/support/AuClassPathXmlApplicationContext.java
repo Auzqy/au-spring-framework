@@ -141,7 +141,7 @@ public class AuClassPathXmlApplicationContext implements AuApplicationContext {
      */
     private void finishBeanFactoryInitialization(AuBeanFactory beanFactory) {
         //初始化所有单例bean对象
-        beanFactory.preInstantiateSingletons();
+        beanFactory.preInstantiateSingletons(null);
     }
 
     /**

@@ -28,5 +28,5 @@ public interface AuBeanFactory {
      * createTime: 2019-08-18 18:38
      * @author au
      */
-    void preInstantiateSingletons();
+    void preInstantiateSingletons(String beanNameRef);
 }
