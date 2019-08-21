@@ -14,6 +14,8 @@
     <bean id="myBean02" class="top.auzqy.bean.MyBean02">
         <property name="name02" value="周芷若"/>
         <property name="age02" value="25"/>
+        <!-- 测试一下循环依赖 todo -->
+        <!--<property name="ref02" ref="myBean01"/>-->
     </bean>
 
 

@@ -14,6 +14,8 @@ public class MyBean02 {
 
     private String age02;
 
+    private MyBean01 ref02;
+
     public void sayHello(){
         System.out.println("MyBean02 ----> sayHello()");
     }
